@@ -25,6 +25,10 @@ fal.config({
 
 const models = [
   {
+    value: 'stable-cascade',
+    label: 'Stable Cascade',
+  },
+  {
     value: 'stable-diffusion',
     label: 'Stable Diffusion',
   },
@@ -95,8 +99,8 @@ export default function Home() {
   useEffect(() => { setIsClient(true) }, [])
 
   const [model, setModel] = useState({
-    value: 'stable-diffusion',
-    label: 'Stable Diffusion'
+    value: 'stable-cascade',
+    label: 'Stable Cascade'
   })
 
   const requiresImage = model.value === 'face-adapter'
@@ -172,6 +176,7 @@ export default function Home() {
     }
     try {
       const params = fetchModelParams(_model.value, _input, imageUrl)
+      console.log('params: ', params)
       if (params.type === 'subscribe') {
         const result:any = await fal.subscribe(params.model_name, {
           ...params.inputs as any,
@@ -562,10 +567,20 @@ export default function Home() {
 
 function fetchModelParams(model: string, input:string, url?: string) {
   switch (model) {
+    case 'stable-cascade':
+      return {
+        type: 'subscribe',
+        model_name: 'fal-ai/stable-cascade',
+        inputs: {
+          input: {
+            prompt: input
+          }
+        }
+      }
     case 'stable-video-diffusion':
       return {
         type: 'subscribe',
-        model_name: '110602490-svd',
+        model_name: 'fal-ai/fast-svd',
         inputs: {
           input: {
             image_url: url
@@ -575,7 +590,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'stable-diffusion':
       return {
         type: 'subscribe',
-        model_name: '110602490-fast-sdxl',
+        model_name: 'fal-ai/fast-sdxl',
         inputs: {
           input: {
             prompt: input
@@ -595,7 +610,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'fooocus':
       return {
         type: 'subscribe',
-        model_name: '110602490-fooocus',
+        model_name: 'fal-ai/fooocus',
         inputs: {
           input: {
             prompt: input
@@ -605,7 +620,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'animate':
       return {
         type: 'subscribe',
-        model_name: '110602490-animatediff',
+        model_name: 'fal-ai/animatediff',
         inputs: {
           input: {
             prompt: input
@@ -615,7 +630,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'fast-animate':
       return {
         type: 'subscribe',
-        model_name: '110602490-animatediff-lcm',
+        model_name: 'fal-ai/animatediff-lcm',
         inputs: {
           input: {
             prompt: input
@@ -625,7 +640,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'face-adapter':
       return {
         type: 'subscribe',
-        model_name: '110602490-ip-adapter-face-id',
+        model_name: 'fal-ai/ip-adapter-face-id',
         inputs: {
           input: {
             face_image_url: url,
@@ -636,7 +651,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'remove-background':
       return {
         type: 'subscribe',
-        model_name: '110602490-imageutils',
+        model_name: 'fal-ai/imageutils',
         inputs: {
           path: '/rembg',
           input: {
@@ -647,7 +662,7 @@ function fetchModelParams(model: string, input:string, url?: string) {
     case 'illusion-diffusion':
       return {
         type: 'subscribe',
-        model_name: '54285744-illusion-diffusion',
+        model_name: 'fal-ai/illusion-diffusion',
         inputs: {
           input: {
             image_url: url,

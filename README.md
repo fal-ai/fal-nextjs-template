@@ -15,7 +15,7 @@ A full model playground for AI image and video generation supporting:
 ### Prerequisites
 
 1. [Fal AI](https://www.fal.ai/) API key (for model access)
-2. [Bytescale](https://www.bytescale.com/) API key (for image manipulation)
+2. [Node.js](https://github.com/Schniz/fnm) installed on your machine
 
 ### Getting started
 
