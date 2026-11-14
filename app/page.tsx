@@ -10,7 +10,7 @@ import { Switch } from '@/components/ui/switch'
 import { Toaster } from '@/components/ui/sonner'
 import { toast } from 'sonner'
 import { v4 as uuid } from 'uuid'
-import * as fal from '@fal-ai/serverless-client'
+import { fal } from '@fal-ai/client'
 
 const seed = Math.floor(Math.random() * 100000)
 const baseArgs = {
@@ -178,7 +178,7 @@ export default function Home() {
       const params = fetchModelParams(_model.value, _input, imageUrl)
       console.log('params: ', params)
       if (params.type === 'subscribe') {
-        const result:any = await fal.subscribe(params.model_name, {
+        const { data: result }: any = await fal.subscribe(params.model_name, {
           ...params.inputs as any,
           logs: true,
           onQueueUpdate: (update) => {
